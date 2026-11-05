@@ -57,8 +57,8 @@ Target URL: **https://apratim-1407.github.io/rajasthan/**
 `NODE_PATH=$(npm root -g) node tools/shoot.js`, then look at `shots/`. Look at the phone shots too: on phones the card sits on top and the scene shows below it.
 
 ## Known gaps
-- On phones, the card covers where the tiger (stop 5) and the sundial (stop 7) sit; the tiger still walks out on its own.
+- Phone version is checked in a browser phone emulation only, not on a real iPhone or Android phone yet.
 - The music has only been checked for errors, not for sound quality — ask Apratim how it sounds before changing it.
 
-## Phones
-The site opens on phones with the same experience, laid out for a narrow screen (see the @media(max-width:760px) block in rajasthan/index.html). A lighter, calmer phone version is planned: fewer effects, simpler scenes, sound off by default.
+## Phones (lite mode)
+Phones, touch screens and windows up to 760 px wide get the class `lite` on <html> (tiny script in <head>); desktop is untouched. Lite mode = the same 14 pages with: no parallax or card wipes, no twinkle/flap/walk scenery animation (fires still flicker), fewer stars and glints, scenes of far-away pages not drawn (`.near` = current page and its neighbours), no number count-up, the card capped at 46% of the screen height and scrollable (with a 'scroll for more' cue) so the scene stays visible, taps instead of drags (stop 4 candle, stop 13 kite), and sound off until the visitor taps the note button. Landscape phones get a side-by-side layout.

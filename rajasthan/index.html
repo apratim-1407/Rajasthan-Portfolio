@@ -3,7 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14080c">
 <style>[hidden]{display:none!important}</style>
+<script>
+/* Phones and touch screens get the lighter version of the same pages (fewer effects, simpler motion, sound off). */
+if(matchMedia('(max-width:760px),(hover:none) and (pointer:coarse)').matches)document.documentElement.classList.add('lite');
+</script>
 <title>14 Stops in Rajasthan</title>
 <meta name="description" content="Apratim Saxena's portfolio, told as a journey of 14 stops across Rajasthan. APM / Product Analyst.">
 <meta property="og:type" content="website">
@@ -222,6 +227,32 @@ h1{font-family:var(--display);font-weight:400;font-size:clamp(38px,8vw,70px);lin
 @keyframes t2{0%,100%{transform:scale(1,1) skewX(0)}33%{transform:scale(.9,1.18) skewX(-6deg)}66%{transform:scale(1.06,.9) skewX(5deg)}}
 @keyframes t3{0%,100%{transform:scale(1,1)}50%{transform:scale(.85,1.22)}}
 .fx .em{animation:em 2.4s ease-out infinite;opacity:0}@keyframes em{0%{opacity:0;transform:translate(0,0)}15%{opacity:1}100%{opacity:0;transform:translate(var(--ex),-170px)}}
+/* ---- Phones and touch screens: a lighter, calmer version of the same pages ----
+   No parallax or card wipes, no twinkling or flapping scenery (fires still flicker), scenes of
+   far-away pages are not drawn, the card is a scrollable panel so the scene stays visible. */
+html.lite .deck{transition:transform .5s ease}
+html.lite .art{inset:0;transition:none;will-change:auto}
+html.lite .pg:not(.near) .art{display:none}
+html.lite .card{clip-path:none!important;opacity:0;transition:opacity .45s ease .1s;max-height:46vh;max-height:46svh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+html.lite .on .card{opacity:1}
+html.lite .card>*,html.lite .on .card>*{opacity:1;transform:none;transition:none!important}
+html.lite .pg.C .card{max-height:calc(100% - 20px)}
+html.lite .act{transition:opacity .4s ease .5s,transform .4s ease .5s}
+html.lite .act .gi{animation:none}
+html.lite .tw,html.lite .glint,html.lite .bob,html.lite .flut,html.lite .walk,html.lite .jolt,html.lite .shoot,html.lite .flag,html.lite .ripple{animation:none!important}
+html.lite .ib{min-height:38px}
+html.lite .nav button{height:44px}html.lite .nav .pv{width:44px}
+html.lite .go{padding:10px 18px;font-size:14px}
+html.lite .drag .art{touch-action:manipulation}
+html.lite .art,html.lite .int{-webkit-tap-highlight-color:transparent}
+html.lite .dial{bottom:auto;top:calc(56px + 46vh + 10px);top:calc(56px + 46svh + 10px);left:50%;width:min(340px,86vw)}
+html.lite .card.more::after{content:"↓ scroll for more";display:block;position:sticky;bottom:-14px;height:30px;margin-top:-30px;line-height:38px;text-align:center;
+  font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--gold);pointer-events:none;background:linear-gradient(transparent,rgba(20,8,12,.96) 70%)}
+@media(max-height:560px) and (orientation:landscape){
+  html.lite .pg,html.lite .pg.R,html.lite .pg.C{padding-top:calc(50px + env(safe-area-inset-top,0px));padding-bottom:78px}
+  html.lite .card,html.lite .pg.C .card{width:min(460px,58vw);max-height:100%}
+  html.lite .dial{top:auto;bottom:74px}
+}
 @media(prefers-reduced-motion:reduce){
   .deck,.art,.card,.card>*,.act,.map .curp,.map .trail{transition:none!important}
   .card{clip-path:none!important}.card>*,.act{opacity:1!important;transform:none!important}
@@ -250,7 +281,7 @@ h1{font-family:var(--display);font-weight:400;font-size:clamp(38px,8vw,70px);lin
   <span class="me">Apratim Saxena · Portfolio</span>
   <span class="here" id="here"></span><span class="sp"></span>
   <span class="cnt" id="cnt">01 / 14</span>
-  <button class="ib" id="snd" aria-pressed="false"><span id="sndI">♪</span> <span id="sndL">Sound off</span></button>
+  <button class="ib" id="snd" aria-pressed="false" aria-label="Sound on or off"><span id="sndI">♪</span> <span id="sndL">Sound off</span></button>
   <button class="ib" id="tocBtn">Contents</button>
 </header>
 <div class="toc" id="toc" hidden><div class="in">
@@ -266,11 +297,12 @@ h1{font-family:var(--display);font-weight:400;font-size:clamp(38px,8vw,70px);lin
 (function(){
 var A='https://apratim-1407.github.io/assets/', NS='http://www.w3.org/2000/svg';
 var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+var LITE=document.documentElement.classList.contains('lite');
 var seed=11;function r(){seed=(seed*16807)%2147483647;return (seed-1)/2147483646;}
 var gid=0;
 function sky(st,id){id=id||('g'+(gid++));var s='<defs><linearGradient id="'+id+'" x1="0" y1="0" x2="0" y2="1">';st.forEach(function(c,i){s+='<stop offset="'+(i/(st.length-1))+'" stop-color="'+c+'"/>';});return s+'</linearGradient></defs><rect width="1600" height="900" fill="url(#'+id+')"/>';}
 function dune(y,a,c,ph){var d='M0 '+y;for(var x=0;x<=1600;x+=200){var yy=y+Math.sin((x/1600)*Math.PI*2+ph)*a;d+=' S'+(x-100)+' '+(yy-a*.6)+' '+x+' '+yy;}return '<path d="'+d+' V900 H0Z" fill="'+c+'"/>';}
-function stars(n,maxY,cls){var s='<g'+(cls?' class="'+cls+'"':'')+'>';for(var i=0;i<n;i++)s+='<circle class="tw" cx="'+(r()*1600|0)+'" cy="'+(r()*maxY|0)+'" r="'+(.6+r()*1.6).toFixed(1)+'" fill="#fff6dd" style="animation-delay:'+(-r()*3).toFixed(2)+'s;animation-duration:'+(2+r()*3).toFixed(1)+'s"/>';return s+'</g>';}
+function stars(n,maxY,cls){if(LITE)n=Math.ceil(n*.4);var s='<g'+(cls?' class="'+cls+'"':'')+'>';for(var i=0;i<n;i++)s+='<circle class="tw" cx="'+(r()*1600|0)+'" cy="'+(r()*maxY|0)+'" r="'+(.6+r()*1.6).toFixed(1)+'" fill="#fff6dd" style="animation-delay:'+(-r()*3).toFixed(2)+'s;animation-duration:'+(2+r()*3).toFixed(1)+'s"/>';return s+'</g>';}
 function camel(x,y,w,c){return '<use href="#camel" x="'+x+'" y="'+y+'" width="'+w+'" height="'+(w*.77)+'" style="color:'+c+'"/>';}
 function battl(x,y,w,h,c){var s='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="'+c+'"/>';for(var i=x;i<x+w-10;i+=22)s+='<rect x="'+i+'" y="'+(y-12)+'" width="12" height="13" fill="'+c+'"/>';return s;}
 /* a living fire: glow that breathes, three flickering tongues, rising embers */
@@ -339,10 +371,10 @@ var P=[
   pts:['Beat both success criteria: <b>39.9% edit rate</b> against a 30% target.','<b>96.4% preview-to-submit</b> against a 90% target. Recommendation: scale and iterate.'],
   mets:[['39.9%','edit rate'],['96.4%','preview to submit']],links:[['Read the case study',A+'fa-application-preview.pdf']],
   outx:'A small light shows you the whole room before you step in. That is what a preview does before you press submit.',
-  act:['drag','Watch the candle breathe, or drag to carry it'],
+  act:['drag','Watch the candle breathe, or drag to carry it'],actL:['tap','Tap anywhere to move the candle light'],
   todo:'Step inside the Sheesh Mahal',loc:'Amber Fort, Jaipur',maps:'Sheesh Mahal Amber Fort Jaipur',nt:'A hall of mirrors that a single flame can fill with light.',
   scene:function(){var s='<rect width="1600" height="900" fill="#2a1830"/>';for(var a=0;a<5;a++){var ax=480+a*230;s+='<path d="M'+ax+' 900V420Q'+(ax+105)+' 300 '+(ax+210)+' 420V900" fill="#3a2440" stroke="#9a7a4a" stroke-width="3"/>';}
-    var cols=['#f2cc7b','#ffffff','#9fd0ff','#ffb3a3'];for(var i=0;i<420;i++){var x=420+r()*1180,y=40+r()*800,z=3+r()*7;s+='<path class="glint" style="animation-delay:'+(-r()*2.2).toFixed(2)+'s" d="M'+x+' '+(y-z)+'l'+z*.7+' '+z+'-'+z*.7+' '+z+'-'+z*.7+'-'+z+'Z" fill="'+cols[i%4]+'"/>';}
+    var cols=['#f2cc7b','#ffffff','#9fd0ff','#ffb3a3'];for(var i=0;i<(LITE?150:420);i++){var x=420+r()*1180,y=40+r()*800,z=3+r()*7;s+='<path class="glint" style="animation-delay:'+(-r()*2.2).toFixed(2)+'s" d="M'+x+' '+(y-z)+'l'+z*.7+' '+z+'-'+z*.7+' '+z+'-'+z*.7+'-'+z+'Z" fill="'+cols[i%4]+'"/>';}
     s+='<defs><radialGradient id="hole"><stop offset="0" stop-color="#000"/><stop offset=".5" stop-color="#000"/><stop offset="1" stop-color="#fff"/></radialGradient><mask id="m4"><rect x="-200" width="2000" height="900" fill="#fff"/><circle id="h4" cx="1100" cy="640" r="260" fill="url(#hole)"/></mask></defs>';
     s+='<rect x="-200" width="2000" height="900" fill="#0b060e" opacity=".92" mask="url(#m4)"/><g id="cand"><rect x="1092" y="644" width="16" height="50" rx="3" fill="#f8ecd4"/>'+fire(1100,646,.42,null,false)+'</g>';return s;},
   init:function(sec){var g=sec.querySelector('.world'),h=sec.querySelector('#h4'),c=sec.querySelector('#cand'),art=sec.querySelector('.art'),last=0,px=1100,py=640,t0=performance.now();
@@ -372,7 +404,7 @@ var P=[
       '<g transform="translate(-24 6)"><path d="M-20-22l-6-16 16 8ZM16-26l8-14 4 16Z" fill="#e8892c"/><circle r="30" fill="#e8892c"/><path d="M-30 6q14 22 30 22 16 0 30-22-8 30-30 30-22 0-30-30Z" fill="#fbe7c8"/><ellipse cx="-12" cy="12" rx="16" ry="11" fill="#fbe7c8"/>'+
       '<path d="M-6-28v14M6-28v12M-26-6q8 2 12 8M26-6q-8 2-12 8M-30 12q8-2 12 2" stroke="#1a0e06" stroke-width="4" stroke-linecap="round" fill="none"/><ellipse cx="-11" cy="-4" rx="5" ry="4" fill="#f6e27a"/><ellipse cx="9" cy="-4" rx="5" ry="4" fill="#f6e27a"/><circle cx="-11" cy="-4" r="2" fill="#1a0e06"/><circle cx="9" cy="-4" r="2" fill="#1a0e06"/><path d="M-22 6l8 4-8 4Z" fill="#3a1a10"/></g></g></g>';
     s+='<g id="bush">';for(i=0;i<8;i++)s+='<ellipse cx="'+(950+i*40)+'" cy="'+(i<2?748:742)+'" rx="'+(52+r()*16|0)+'" ry="'+(i<2?40:46)+'" fill="'+(i%2?'#4a5a28':'#56662e')+'"/>';s+='</g>';
-    for(i=0;i<160;i++){var gx=r()*1600,gh=60+r()*120;s+='<path d="M'+(gx|0)+' 900q'+(r()*20-10|0)+' -'+(gh/2|0)+' '+(r()*30-15|0)+' -'+(gh|0)+'" stroke="'+(i%3?'#7a8a3c':'#4f5e26')+'" stroke-width="'+(3+r()*3|0)+'" fill="none"/>';}
+    for(i=0;i<(LITE?70:160);i++){var gx=r()*1600,gh=60+r()*120;s+='<path d="M'+(gx|0)+' 900q'+(r()*20-10|0)+' -'+(gh/2|0)+' '+(r()*30-15|0)+' -'+(gh|0)+'" stroke="'+(i%3?'#7a8a3c':'#4f5e26')+'" stroke-width="'+(3+r()*3|0)+'" fill="none"/>';}
     s+='<g class="jolt" id="jeep"><g transform="translate(1290 800) scale(.8)"><rect x="0" y="-60" width="200" height="56" rx="10" fill="#3d5a2a"/><rect x="150" y="-88" width="50" height="30" fill="#2c4220"/><path d="M10-60v-34h130v34" stroke="#1a2412" stroke-width="5" fill="none"/>'+
       '<circle cx="50" cy="-90" r="12" fill="#1a1410"/><path d="M38-78h24v18H38Z" fill="#c8402d"/><rect x="56" y="-96" width="16" height="7" fill="#1a1410"/><circle cx="100" cy="-88" r="12" fill="#1a1410"/><path d="M88-76h24v16H88Z" fill="#f2cc7b"/>'+
       '<circle cx="44" cy="0" r="22" fill="#1a1410"/><circle cx="44" cy="0" r="9" fill="#777"/><circle cx="160" cy="0" r="22" fill="#1a1410"/><circle cx="160" cy="0" r="9" fill="#777"/></g></g>';return s;},
@@ -520,17 +552,22 @@ var P=[
   pts:['<b>Review Pulse</b> turns thousands of reviews into a weekly one-pager: top 3 themes, real quotes and actions in under 250 words, emailed automatically.','<b>QA Signal Loop</b> shows a PM which bugs keep coming back, ranked by user impact. PRD, data model and a working prototype.'],
   links:[['QA Signal Loop on GitHub','https://github.com/apratim-1407/qa-signal-loop'],['Review Pulse demo',A+'review-pulse.mp4',1]],
   outx:'Your gold kite has cut <em id="kc">0</em>. The sky is noise; your string finds the signal.',
-  act:['drag','Drag your gold kite into the others to cut them'],
+  act:['drag','Drag your gold kite into the others to cut them'],actL:['tap','Tap the sky to send your gold kite there'],
   todo:'Fly a kite on Makar Sankranti',loc:'Rooftops of Jaipur',maps:'Jaipur old city rooftops',nt:'Every January the whole city is on its roof, and the sky is full.',
   scene:function(){var s=sky(['#6fbfe0','#c7e7ef','#fbeccb']),kc=['#e8303a','#f2b705','#2b7bd6','#1fa66a','#e86fae','#7a3fd0','#ff7a1a','#ffffff'];
     for(var k=0;k<46;k++){var kx=420+r()*1150,ky=70+r()*560,ks=18+r()*18;if(Math.abs(kx-1240)<90&&Math.abs(ky-300)<90)kx-=200;s+='<g class="cutk" data-x="'+(kx|0)+'" data-y="'+(ky|0)+'"><g class="flut" style="animation-delay:'+(-r()*3).toFixed(2)+'s"><path d="M'+kx+' '+(ky-ks)+'L'+(kx+ks*.8)+' '+ky+'L'+kx+' '+(ky+ks)+'L'+(kx-ks*.8)+' '+ky+'Z" fill="'+kc[k%8]+'" stroke="#0003"/><path d="M'+kx+' '+(ky+ks)+'q6 10-2 18" stroke="#0004" fill="none"/></g></g>';}
     s+='<path id="str13" d="M1040 780L1240 300" stroke="#8a5424" stroke-width="2" fill="none"/><g id="gold"><g transform="translate(1240 300)"><path d="M0-50L40 0 0 50-40 0Z" fill="#f2cc7b" stroke="#8a5424" stroke-width="3"/><path d="M0-50V50M-40 0H40" stroke="#8a5424" stroke-width="1.4"/><path d="M0 50q10 14-4 28" stroke="#8a5424" stroke-width="2" fill="none"/></g></g>';
     return s+'<path d="M0 780h140v-40h30l20-30 20 30h30v40h160v-60h40v-26h20v26h40v60h220v-44h28l22-34 22 34h28v44h200v-70h60v70h170v-36h30l18-28 18 28h30v36h180V900H0Z" fill="#d97c6a"/>';},
   init:function(sec){var g=sec.querySelector('.world'),gold=sec.querySelector('#gold'),str=sec.querySelector('#str13'),kc=sec.querySelector('#kc'),art=sec.querySelector('.art'),dragging=false,n=0,ks=[].slice.call(sec.querySelectorAll('.cutk'));
-    function place(x,y){x=Math.max(380,Math.min(1580,x));y=Math.max(60,Math.min(700,y));gold.setAttribute('transform','translate('+(x-1240)+' '+(y-300)+')');str.setAttribute('d','M1040 780Q'+((1040+x)/2+60)+' '+((780+y)/2+80)+' '+x+' '+(y+50));
+    var gx=1240,gy=300,fly=null;
+    /* on phones a tap sends the kite flying there, cutting every kite on the way */
+    function flyTo(x,y){clearInterval(fly);var sx=gx,sy=gy,k=0;fly=setInterval(function(){k++;var t=1-Math.pow(1-k/14,2);place(sx+(x-sx)*t,sy+(y-sy)*t);if(k>=14)clearInterval(fly);},35);}
+    function place(x,y){x=Math.max(380,Math.min(1580,x));y=Math.max(60,Math.min(700,y));gx=x;gy=y;gold.setAttribute('transform','translate('+(x-1240)+' '+(y-300)+')');str.setAttribute('d','M1040 780Q'+((1040+x)/2+60)+' '+((780+y)/2+80)+' '+x+' '+(y+50));
       ks.forEach(function(k){if(k.classList.contains('gone'))return;var dx=k.dataset.x-x,dy=k.dataset.y-y;if(dx*dx+dy*dy<52*52){k.classList.add('gone');n++;kc.textContent=n;if(n===8)out(sec,'<em>Eight cut.</em> That is what Review Pulse does to a pile of reviews: cuts the noise, keeps the signal. Your gold kite has cut <em id="kc">'+n+'</em>.');kc=sec.querySelector('#kc');}});}
-    art.addEventListener('pointerdown',function(e){e.preventDefault();dragging=true;art.setPointerCapture(e.pointerId);var p=svgPt(g,e);place(p.x,p.y);});
-    art.addEventListener('pointermove',function(e){if(!dragging)return;var p=svgPt(g,e);place(p.x,p.y);});
+    art.addEventListener('pointerdown',function(e){e.preventDefault();dragging=true;art.setPointerCapture(e.pointerId);var p=svgPt(g,e);if(LITE)flyTo(p.x,p.y);else place(p.x,p.y);});
+    art.addEventListener('pointermove',function(e){if(!dragging)return;clearInterval(fly);var p=svgPt(g,e);place(p.x,p.y);});
+    /* on phones the card covers the top of the sky, so the gold kite starts lower, in view */
+    if(LITE){gy=540;gold.setAttribute('transform','translate(0 240)');str.setAttribute('d','M1040 780Q1200 740 1240 590');}
     art.addEventListener('pointerup',function(){dragging=false;});art.addEventListener('pointercancel',function(){dragging=false;});}},
 
 /* 14 Camp */{side:'C',fx:800,ll:[70.53,26.83],place:'Jaisalmer',cat:'Contact',cls:'oth',title:'The fire’s lit. Let’s talk.',sub:'Thanks for travelling all 14 stops.',
@@ -557,7 +594,7 @@ function routeSVG(i){var o=OUT.map(mp).map(function(p){return p.join(',');}).joi
 var GI={tap:'g-tap',drag:'g-drag',type:'g-type',eye:'g-eye',info:'g-info'};
 var deck=document.getElementById('deck'),tocL=document.getElementById('tocList');
 P.forEach(function(p,i){
-  var n=i+1,num=(n<10?'0':'')+n,sec=document.createElement('section');sec.className='pg '+p.side+(p.cover?' cover':'')+(p.drag?' drag':'');sec.id='p'+n;
+  var n=i+1,num=(n<10?'0':'')+n,sec=document.createElement('section');sec.className='pg '+p.side+(p.cover?' cover':'')+(p.drag?' drag':'')+(LITE&&i<2?' near':'');sec.id='p'+n;
   var mir=p.side==='R';
   var art='<div class="art"><svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g class="world"'+(mir?' transform="translate(1600 0) scale(-1 1)"':'')+'>'+p.scene()+'</g></svg></div><div class="shade"></div>';
   var card;
@@ -570,7 +607,8 @@ P.forEach(function(p,i){
     (p.tools?'<div class="tools">'+p.tools.map(function(t){return '<span>'+t+'</span>';}).join('')+'</div>':'')+
     (p.mets?'<div class="mets">'+p.mets.map(function(m){return '<div><strong data-v="'+m[0]+'">'+m[0]+'</strong><span>'+m[1]+'</span></div>';}).join('')+'</div>':'')+
     (p.links?'<div class="links">'+p.links.map(function(l){return '<a class="go'+(l[2]?' gh':'')+'" href="'+l[1]+'">'+l[0]+'</a>';}).join('')+'</div>':'')+'</article>';}
-  var act=!p.act?'':'<div class="act'+(p.act[0]==='info'?' fact':'')+'" role="note"><span class="gi"><svg><use href="#'+GI[p.act[0]]+'"/></svg></span><span class="t">'+p.act[1]+'</span></div>';
+  var pa=(LITE&&p.actL)||p.act;
+  var act=!pa?'':'<div class="act'+(pa[0]==='info'?' fact':'')+'" role="note"><span class="gi"><svg><use href="#'+GI[pa[0]]+'"/></svg></span><span class="t">'+pa[1]+'</span></div>';
   var pin='<footer class="pin"><div class="map">'+routeSVG(i)+'</div><span class="tx"><span class="td"><i>Stop '+n+' of 14</i>'+p.todo+'</span><span class="loc"><a href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(p.maps)+'">'+p.loc+' ↗</a></span></span><span class="nt">'+p.nt+'</span></footer>';
   sec.innerHTML=art+card+act+(p.overlay||'')+pin;deck.appendChild(sec);
   if(mir){sec.querySelectorAll('.world text').forEach(function(t){var x=+t.getAttribute('x');t.setAttribute('transform','translate('+(2*x)+' 0) scale(-1 1)');});
@@ -582,13 +620,18 @@ P.forEach(function(p,i){
 /* ---------------------------------------------------------------- NAV */
 var pages=[].slice.call(deck.children),cur=-1,toc=document.getElementById('toc'),prev=document.getElementById('prev'),next=document.getElementById('next');
 function frame(){var m=innerWidth<=760;pages.forEach(function(s,i){var svg=s.querySelector('.art svg'),p=P[i],fx=p.side==='R'?1600-p.fx:p.fx;svg.setAttribute('viewBox',m?(fx-520)+' 0 1040 900':'0 0 1600 900');});}
-function countUp(sec){sec.querySelectorAll('.mets strong').forEach(function(s){var v=s.dataset.v,m=v.match(/^([^\d]*)([\d,.]+)(.*)$/);if(!m||reduce){s.textContent=v;return;}
+function countUp(sec){sec.querySelectorAll('.mets strong').forEach(function(s){var v=s.dataset.v,m=v.match(/^([^\d]*)([\d,.]+)(.*)$/);if(!m||reduce||LITE){s.textContent=v;return;}
   var num=parseFloat(m[2].replace(/,/g,'')),dec=(m[2].split('.')[1]||'').length,comma=m[2].indexOf(',')>-1,t0=null;
   function f(x){var y=dec?x.toFixed(dec):Math.round(x).toString();if(comma)y=Number(y).toLocaleString('en-IN');return m[1]+y+m[3];}
   s.textContent=f(0);setTimeout(function(){requestAnimationFrame(function st(ts){if(!t0)t0=ts;var k=Math.min(1,(ts-t0)/1100);s.textContent=f(num*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(st);});},1300);});}
-function go(i){i=Math.max(0,Math.min(pages.length-1,i));if(i===cur)return;if(cur>=0)pages[cur].dispatchEvent(new Event('leave'));cur=i;
+/* phones: a "scroll for more" cue while the card has text below the fold */
+function cue(sec){var c=sec.querySelector('.card');if(!c)return;c.classList.toggle('more',c.scrollHeight>c.clientHeight+6&&c.scrollTop+c.clientHeight<c.scrollHeight-6);}
+function go(i){i=Math.max(0,Math.min(pages.length-1,i));if(i===cur)return;if(cur>=0)pages[cur].dispatchEvent(new Event('leave'));
+  if(LITE&&cur>=0&&Math.abs(i-cur)>1){deck.style.transition='none';requestAnimationFrame(function(){requestAnimationFrame(function(){deck.style.transition='';});});}
+  cur=i;
   deck.style.transform='translate3d('+(-i*100)+'vw,0,0)';
-  pages.forEach(function(s,j){s.querySelector('.art').style.transform='translate3d('+((j-i)*-45)+'vw,0,0)';s.classList.toggle('on',j===i);s.inert=(j!==i);});
+  pages.forEach(function(s,j){if(LITE)s.classList.toggle('near',Math.abs(j-i)<=1);else s.querySelector('.art').style.transform='translate3d('+((j-i)*-45)+'vw,0,0)';s.classList.toggle('on',j===i);s.inert=(j!==i);});
+  if(LITE)setTimeout(function(){cue(pages[i]);},700);
   document.getElementById('cnt').textContent=(i<9?'0':'')+(i+1)+' / 14';
   document.getElementById('here').innerHTML='<svg viewBox="0 0 12 15" aria-hidden="true"><path d="M6 .5C2.9.5.6 2.8.6 5.7.6 9.6 6 14.5 6 14.5s5.4-4.9 5.4-8.8C11.4 2.8 9.1.5 6 .5Z" fill="#c8402d"/><circle cx="6" cy="5.7" r="2" fill="#f8ecd4"/></svg><b>'+P[i].place+'</b>';
   setMood(i);
@@ -604,9 +647,10 @@ document.addEventListener('keydown',function(e){if(e.target.matches('input'))ret
   if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();go(cur+1);}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(cur-1);}});
 var lock=0;addEventListener('wheel',function(e){if(!toc.hidden)return;var c=e.target.closest('.card');if(c&&c.scrollHeight>c.clientHeight+4)return;
   var d=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY;if(Math.abs(d)<24||Date.now()<lock)return;lock=Date.now()+1100;go(cur+(d>0?1:-1));},{passive:true});
-var sx=0,sy=0,ok=false;deck.addEventListener('touchstart',function(e){var t=e.target;ok=!t.closest('input,button,a,.int,.ctl,.drag .art,#p4 .art');sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
+var sx=0,sy=0,ok=false;deck.addEventListener('touchstart',function(e){var t=e.target;ok=!t.closest(LITE?'input,button,a,.int,.ctl':'input,button,a,.int,.ctl,.drag .art,#p4 .art');sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
 deck.addEventListener('touchend',function(e){if(!ok)return;var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)*1.3)go(cur+(dx<0?1:-1));},{passive:true});
-addEventListener('resize',frame);frame();requestAnimationFrame(function(){go(0);});
+pages.forEach(function(s){var c=s.querySelector('.card');if(c)c.addEventListener('scroll',function(){cue(s);},{passive:true});});
+addEventListener('resize',function(){frame();if(LITE&&cur>=0)cue(pages[cur]);});frame();requestAnimationFrame(function(){go(0);});
 
 /* ---------------------------------------------------------------- AMBIENT MUSIC
    Five soothing moods, all synthesised live, crossfading as you travel:
@@ -672,7 +716,8 @@ function soundStart(){if(userMuted&&arguments[0]!=='force')return;if(!AC&&!build
 function soundStop(){if(!AC)return;soundOn=false;var t=AC.currentTime;master.gain.cancelScheduledValues(t);master.gain.setValueAtTime(master.gain.value,t);master.gain.linearRampToValueAtTime(0,t+1.2);
   setTimeout(function(){if(!soundOn){clearInterval(timer);timer=null;AC.suspend();}},1300);sndL.textContent='Sound off';sndBtn.setAttribute('aria-pressed','false');}
 sndBtn.addEventListener('click',function(){if(soundOn){userMuted=true;soundStop();}else{userMuted=false;soundStart('force');}});
-pages[0].addEventListener('click',function(e){if(!e.target.closest('a'))soundStart();});
+/* on phones the sound stays off until the visitor taps the ♪ button */
+pages[0].addEventListener('click',function(e){if(!LITE&&!e.target.closest('a'))soundStart();});
 document.addEventListener('visibilitychange',function(){if(!AC)return;if(document.hidden&&soundOn)AC.suspend();else if(soundOn)AC.resume();});
 })();
 </script>

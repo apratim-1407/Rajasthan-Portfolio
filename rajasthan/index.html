@@ -154,6 +154,22 @@ h1{font-family:var(--display);font-weight:400;font-size:clamp(38px,8vw,70px);lin
   padding:10px max(18px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px));
   background:rgba(14,5,8,.9);border-top:1px solid var(--line);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase}
 .bar .sp{flex:1}
+.tl,.nv{display:contents}
+/* DESKTOP layout (not the phone version): the top of the screen is empty except Sound and Contents
+   at the top-right; the bottom has the map strip on the left and Previous / Next on the right. No page count. */
+html:not(.lite) .bar{display:contents}
+html:not(.lite) .bar .cnt,html:not(.lite) .bar .sp{display:none}
+html:not(.lite) .tl{display:flex;gap:10px;position:fixed;z-index:30;top:calc(14px + env(safe-area-inset-top,0px));right:max(18px,env(safe-area-inset-right,0px))}
+html:not(.lite) .nv{display:flex;gap:8px;align-items:center;position:fixed;z-index:31;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(11px + env(safe-area-inset-bottom,0px))}
+html:not(.lite) .pg{padding-top:calc(62px + env(safe-area-inset-top,0px));padding-bottom:150px}
+html:not(.lite) .pin{top:auto;bottom:0;left:0;right:0;gap:14px;min-height:62px;
+  padding:10px 210px calc(10px + env(safe-area-inset-bottom,0px)) max(24px,5vw,env(safe-area-inset-left,0px));border-bottom:0;border-top:1px solid var(--line)}
+html:not(.lite) .map{width:92px;height:84px;margin-top:-40px}
+html:not(.lite) .pin .td{display:block;font-size:14px;color:#fff0d6;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html:not(.lite) .pin .td i{display:inline;font-size:inherit;letter-spacing:0;margin-right:6px}
+html:not(.lite) .pin .tt{display:inline;font-size:inherit;-webkit-line-clamp:unset}
+@media(min-width:1050px){html:not(.lite) .pin .nt{display:block;font-size:12px;color:var(--dim);font-style:italic;margin-left:auto;max-width:42ch}}
+html:not(.lite) .dock{bottom:116px}
 .bar .cnt{font-family:var(--display);font-size:17px;letter-spacing:.06em;color:var(--gold);font-variant-numeric:tabular-nums;white-space:nowrap;margin-right:8px}
 .ib{display:inline-flex;align-items:center;gap:6px;background:rgba(14,5,8,.6);color:var(--cream);border:1px solid var(--line);
   border-radius:999px;padding:6px 12px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;cursor:pointer}
@@ -288,11 +304,15 @@ html.lite .card.more::after{content:"↓ scroll for more";display:block;position
 
 <header class="bar">
   <span class="cnt" id="cnt">01 / 14</span>
-  <button class="ib" id="snd" aria-pressed="false" aria-label="Sound on or off"><span id="sndI">♪</span> <span id="sndL">Sound off</span></button>
-  <button class="ib" id="tocBtn">Contents</button>
+  <span class="tl">
+    <button class="ib" id="snd" aria-pressed="false" aria-label="Sound on or off"><span id="sndI">♪</span> <span id="sndL">Sound off</span></button>
+    <button class="ib" id="tocBtn">Contents</button>
+  </span>
   <span class="sp"></span>
-  <button class="pv" id="prev" aria-label="Previous page">←</button>
-  <button class="nx" id="next"><small id="nextPlace">Next</small><span id="nextLab">Begin →</span></button>
+  <span class="nv">
+    <button class="pv" id="prev" aria-label="Previous page">←</button>
+    <button class="nx" id="next"><small id="nextPlace">Next</small><span id="nextLab">Begin →</span></button>
+  </span>
 </header>
 <div class="toc" id="toc" hidden><div class="in">
   <div class="hd"><h3>14 stops across Rajasthan</h3><button class="ib" id="tocClose">Close</button></div>

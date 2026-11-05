@@ -60,5 +60,5 @@ Target URL: **https://apratim-1407.github.io/rajasthan/**
 - On phones, the card covers where the tiger (stop 5) and the sundial (stop 7) sit; the tiger still walks out on its own.
 - The music has only been checked for errors, not for sound quality — ask Apratim how it sounds before changing it.
 
-## Desktop only
-The site is desktop-only by design. Phones, tablets and windows narrower than 1024 px see a message instead of the site (gate script at the top of ajasthan/index.html; the app script exits early when the page is blocked).
+## Phones
+The site opens on phones with the same experience, laid out for a narrow screen (see the @media(max-width:760px) block in rajasthan/index.html). A lighter, calmer phone version is planned: fewer effects, simpler scenes, sound off by default.

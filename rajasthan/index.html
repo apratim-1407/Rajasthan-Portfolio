@@ -4,27 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <style>[hidden]{display:none!important}</style>
-<script>
-/* Desktop-only gate: phones and tablets (and windows narrower than 1024px) see a message instead of the site. */
-(function(){
-  var ua=navigator.userAgent||'', uad=navigator.userAgentData;
-  var device=/Android|iPhone|iPod|iPad|Windows Phone|Mobile|webOS|BlackBerry|Opera Mini|IEMobile|Tablet/i.test(ua)
-    || (uad && uad.mobile===true)
-    || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1)
-    || matchMedia('(hover:none) and (pointer:coarse)').matches;
-  var narrow=innerWidth<1024;
-  var d=document.documentElement;
-  if(device||narrow){d.classList.add('blocked');if(!device)d.classList.add('narrow');}
-  /* A desktop window that was too narrow is re-checked when resized. */
-  if(!device){addEventListener('resize',function(){var n=innerWidth<1024;if(n!==d.classList.contains('narrow'))location.reload();});}
-})();
-</script>
 <title>14 Stops in Rajasthan</title>
-<meta name="description" content="Apratim Saxena's portfolio, told as a journey of 14 stops across Rajasthan. APM / Product Analyst. Best on a desktop screen.">
+<meta name="description" content="Apratim Saxena's portfolio, told as a journey of 14 stops across Rajasthan. APM / Product Analyst.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Apratim Saxena">
 <meta property="og:title" content="Apratim Saxena · 14 Stops in Rajasthan">
-<meta property="og:description" content="A product portfolio told as a journey of 14 stops across Rajasthan. Best on a desktop screen.">
+<meta property="og:description" content="A product portfolio told as a journey of 14 stops across Rajasthan.">
 <meta property="og:url" content="https://apratim-1407.github.io/rajasthan/">
 <meta property="og:image" content="https://apratim-1407.github.io/rajasthan/og-image.png">
 <meta property="og:image:type" content="image/png">
@@ -33,7 +18,7 @@
 <meta property="og:image:alt" content="Apratim Saxena, APM / Product Analyst: 14 stops across Rajasthan, a desert sunset with a fort and a camel caravan.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Apratim Saxena · 14 Stops in Rajasthan">
-<meta name="twitter:description" content="A product portfolio told as a journey of 14 stops across Rajasthan. Best on a desktop screen.">
+<meta name="twitter:description" content="A product portfolio told as a journey of 14 stops across Rajasthan.">
 <meta name="twitter:image" content="https://apratim-1407.github.io/rajasthan/og-image.png">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,16 +31,6 @@
   color-scheme: dark;
 }
 *{box-sizing:border-box}
-#gate{display:none}
-html.blocked body>*:not(#gate){display:none!important}
-html.blocked #gate{display:flex;position:fixed;inset:0;align-items:center;justify-content:center;text-align:center;padding:32px;
-  background:radial-gradient(ellipse at 50% 110%,#5a2210 0,#2a0f12 45%,#14080c 80%)}
-#gate .gin{max-width:420px}
-#gate h1{font-family:var(--display);font-weight:400;font-size:30px;line-height:1.2;margin:0 0 14px;color:var(--gold)}
-#gate p{margin:0 0 12px;font-size:17px;color:var(--cream)}
-#gate .url{display:inline-block;margin-top:8px;padding:10px 18px;border:1px solid var(--line);border-radius:999px;color:var(--gold);text-decoration:none;font-weight:500}
-#gate .nw{display:none}
-html.narrow #gate .nw{display:block}html.narrow #gate .ph{display:none}
 html,body{margin:0;height:100%;overflow:hidden}
 body{background:var(--ink);color:var(--cream);font-family:var(--body);font-weight:300;line-height:1.55;font-size:16px;overscroll-behavior:none}
 a{color:var(--gold)}
@@ -256,12 +231,6 @@ h1{font-family:var(--display);font-weight:400;font-size:clamp(38px,8vw,70px);lin
 </style>
 </head>
 <body>
-<div id="gate" role="alert"><div class="gin">
-  <h1>14 Stops in Rajasthan is made for a desktop screen</h1>
-  <p class="ph">This journey can't be viewed on a phone or tablet. Please open it on a laptop or desktop computer.</p>
-  <p class="nw">Your window is too narrow. Please widen it to at least 1024 px, or open this on a laptop or desktop.</p>
-  <a class="url" href="https://apratim-1407.github.io/rajasthan/">apratim-1407.github.io/rajasthan</a>
-</div></div>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
   <symbol id="camel" viewBox="0 0 150 116"><g fill="currentColor" stroke="currentColor" stroke-linecap="round">
@@ -295,7 +264,6 @@ h1{font-family:var(--display);font-weight:400;font-size:clamp(38px,8vw,70px);lin
 
 <script>
 (function(){
-if(document.documentElement.classList.contains('blocked'))return;
 var A='https://apratim-1407.github.io/assets/', NS='http://www.w3.org/2000/svg';
 var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 var seed=11;function r(){seed=(seed*16807)%2147483647;return (seed-1)/2147483646;}

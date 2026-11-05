@@ -62,3 +62,6 @@ Target URL: **https://apratim-1407.github.io/rajasthan/**
 
 ## Phones (lite mode)
 Phones, touch screens and windows up to 760 px wide get the class `lite` on <html> (tiny script in <head>); desktop is untouched. Lite mode = the same 14 pages with: no parallax or card wipes, no twinkle/flap/walk scenery animation (fires still flicker), fewer stars and glints, scenes of far-away pages not drawn (`.near` = current page and its neighbours), no number count-up, the card capped at 46% of the screen height and scrollable (with a 'scroll for more' cue) so the scene stays visible, taps instead of drags (stop 4 candle, stop 13 kite), and sound off until the visitor taps the note button. Landscape phones get a side-by-side layout.
+
+## Layout
+Top-left of every page: the route map, 'Stop n of 14', the title and the place link (the .pin block). Bottom bar (fixed): page count, sound, Contents, previous, next. On phones stop 7 has no slider: the sun, sky and shadow run by themselves, 1 second = 10 minutes of the day (change `dt*(10/720)*100` in the stop 7 init to change the speed).
